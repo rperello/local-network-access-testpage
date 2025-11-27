@@ -31,7 +31,24 @@
     </style>
 
     <main>
-        <iframe src="http://localhost:3000/logo"></iframe>
     </main>
+
+    <script>
+        const searchParams = new URLSearchParams(document.location.search);
+        const host = searchParams.get('host') ?? 'localhost:3000';
+        const page = searchParams.get('page') ?? 'logo';
+        const protocol = searchParams.has('secure') ? 'https' : 'http';
+
+        searchParams.delete('host');
+        searchParams.delete('page');
+        searchParams.delete('protocol');
+        
+        const [mainElement] = document.getElementsByTagName('main');
+
+        const iframeElement = document.createElement('iframe');
+        iframeElement.setAttribute('src', `${protocol}://${host}/${page}?${searchParams.toString()}`);
+
+        mainElement.appendChild(iframeElement);
+    </script>
 </body>
 </html>
